@@ -23,7 +23,7 @@ RUN pecl install xdebug \
 # Install other PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath zip intl soap
 
-WORKDIR /var/www/backend
+WORKDIR /var/www/app
 
 EXPOSE 9000
 CMD ["php-fpm"]
