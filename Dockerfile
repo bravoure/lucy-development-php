@@ -14,14 +14,18 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl \
     git \
-    imagemagick
+    imagemagick \
+    libgd-dev
+
+# Install GD extension
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
 
 # Install Xdebug
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
 # Install other PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath zip intl soap
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath zip intl soap gd
 
 WORKDIR /var/www/app
 
