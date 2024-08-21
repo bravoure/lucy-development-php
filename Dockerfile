@@ -1,7 +1,16 @@
 FROM php:8.3-fpm
 
 # setup general options for environment variables
+ARG PHP_MEMORY_LIMIT_ARG="256M"
+ENV PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT_ARG}
+ARG PHP_MAX_EXECUTION_TIME_ARG="120"
+ENV PHP_MAX_EXECUTION_TIME=${PHP_MAX_EXECUTION_TIME_ARG}
 ARG PHP_UPLOAD_MAX_FILESIZE_ARG="128M"
+ENV PHP_UPLOAD_MAX_FILESIZE=${PHP_UPLOAD_MAX_FILESIZE_ARG}
+ARG PHP_MAX_INPUT_VARS_ARG="1000"
+ENV PHP_MAX_INPUT_VARS=${PHP_MAX_INPUT_VARS_ARG}
+ARG PHP_POST_MAX_SIZE_ARG="128M"
+ENV PHP_POST_MAX_SIZE=${PHP_POST_MAX_SIZE_ARG}
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -30,8 +39,8 @@ RUN pecl install xdebug \
 # Install other PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath zip intl soap gd
 
-RUN echo "upload_max_filesize=${PHP_UPLOAD_MAX_FILESIZE}" > /usr/local/etc/php/conf.d/uploads.ini \
-    && echo "post_max_size=${PHP_UPLOAD_MAX_FILESIZE}" >> /usr/local/etc/php/conf.d/uploads.ini
+# copy custom.ini settings
+COPY craft-cms.ini /usr/local/etc/php/conf.d/
 
 WORKDIR /var/www/app
 
