@@ -39,8 +39,17 @@ RUN pecl install xdebug \
 # Install other PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath zip intl soap gd
 
-# copy custom.ini settings
-COPY craft-cms.ini /usr/local/etc/php/conf.d/
+# Create a generic non-root user
+RUN useradd -ms /bin/bash appuser
+
+# Create the working directory and set permissions
+RUN mkdir -p /var/www/app && chown -R appuser:appuser /var/www/app
+
+# switch to non-root user
+USER appuser
+
+# copy generic ini settings
+COPY --chown=appuser:appuser php-custom.ini /usr/local/etc/php/conf.d/
 
 WORKDIR /var/www/app
 
