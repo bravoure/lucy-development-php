@@ -51,7 +51,7 @@ USER appuser
 # copy generic ini settings
 COPY --chown=appuser:appuser php-custom.ini /usr/local/etc/php/conf.d/
 
-WORKDIR /var/www/app
+WORKDIR /var/www/backend
 
 EXPOSE 9000
 CMD ["php-fpm"]
