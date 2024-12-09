@@ -48,7 +48,7 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          build-args:
-            PHP_VERSION: ${{ matrix.php_version }}
+          build-args: |
+            PHP_VERSION=${{ matrix.php_version }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.php_version }}
           labels: ${{ steps.meta.outputs.labels }}
