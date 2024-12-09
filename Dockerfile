@@ -1,4 +1,6 @@
-FROM php:8.3-fpm
+# Gebruik een ARG voor de PHP-versie
+ARG PHP_VERSION=8.4
+FROM php:${PHP_VERSION}-fpm
 
 # setup general options for environment variables
 ARG PHP_MEMORY_LIMIT_ARG="256M"
